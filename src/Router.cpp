@@ -81,7 +81,16 @@ void Router::readInput() {
         cout << padding << "Successfully open input:" << setting.input_file_name << padding << endl;
     }
     string line;
-
+/*    
+0 0 5000000 5000000
+source 0 0 0 0
+num sink 4
+1 1200000 1300000 35
+2 4000000 1200000 35
+3 1300000 3800000 35
+4 3700000 3300000 35
+*/
+    /*
     while (getline(fin, line)) {
         istringstream iss(line);
         if (iss.str().find("MAX_RUNTIME") != std::string::npos) {
@@ -100,6 +109,30 @@ void Router::readInput() {
             double x, y;
             iss >> buf >> tap_id >> x >> y;
             taps.emplace_back(tap_id, x, y);
+        }
+    } 
+    */
+   while (getline(fin, line)) {
+        istringstream iss(line);
+        // if (iss.str().find("MAX_RUNTIME") != std::string::npos) {
+        //     MAX_RUNTIME = stoi(line.substr(line.find(" ") + 1));
+        //     cout << "MAX_RUNTIME: " << MAX_RUNTIME << endl;
+        // }
+        // if (iss.str().find("END TAPS") != std::string::npos) {
+        //     break;
+        if (iss.str().find("sink") != std::string::npos) {
+            cout << "==================" << line.substr(line.find(" ") + 1) << "==================" << endl;
+            NUM_TAPS = stoi(line.substr(line.rfind(" ") + 1));
+            cout << "NUM_TAPS: " << NUM_TAPS << endl;
+            for(int i = 0; i < NUM_TAPS; i++) {
+                getline(fin, line);
+                istringstream iss_2(line);
+                int tap_id; 
+                double x, y, z;
+                iss_2 >> tap_id >> x >> y >> z;
+                taps.emplace_back(tap_id, x, y);
+            }
+            break;
         }
     }
     for (auto& tap : taps) {
